@@ -1,0 +1,71 @@
+﻿@model Kodasat.Models.Koda
+
+@{
+    ViewBag.Title = "قداس جديد";
+}
+<link href="~/Style/StyleSheet1.css" rel="stylesheet" />
+<h2 class="ArabicSide">إضافه قداس جديد</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr style="clear:both" />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger ArabicSide" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control ArabicSide " } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger ArabicSide" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control ArabicSide" } })
+            @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger ArabicSide" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeopleCount, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PeopleCount, new { htmlAttributes = new { @class = "form-control ArabicSide" } })
+            @Html.ValidationMessageFor(model => model.PeopleCount, "", new { @class = "text-danger ArabicSide" })
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-10 ">
+            <input type="submit" value="إضافه" class="btn btn-success ArabicSide" style="padding-left:52px;padding-right:52px" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 ">
+            @Html.ActionLink("الرجوع لجدول القداسات", "Index", null, new { @class = "btn btn-default  ArabicSide" })
+        </div>
+    </div>
+
+</div>
+
+}
+
+
+    
+
+<div style="clear:both"></div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

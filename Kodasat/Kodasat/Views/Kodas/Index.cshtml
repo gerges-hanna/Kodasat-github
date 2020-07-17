@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Kodasat.Models.Koda>
+
+@{
+    ViewBag.Title = "مواعيد القداسات";
+}
+    <style>
+        .floatText {
+            float: right;
+            text-align: center;
+        }
+    </style>
+
+    <h2 class="floatText">مواعيد القداسات</h2>
+<div style="clear:both"></div>
+<p class="floatText">
+    @Html.ActionLink("Create New", "Create",null,new { @class= "btn btn-primary" })
+</p>
+<table class="table table table-striped">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Login.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Church.churchName)
+        </th>
+        <th >
+            @Html.DisplayNameFor(model => model.PeopleDeposited)
+        </th>
+        <th style = "text-align:center">
+            @Html.DisplayNameFor(model => model.PeopleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+
+
+
+
+
+
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    @{
+        ViewBag.flag = 0;
+        String str = item.Date.ToString("dd/MM/yyyy");
+        if (item.Date < DateTime.Now)
+        {
+            ViewBag.flag= 1;
+        }
+    }
+    <td>
+        <a class="btn btn-info btn-sm" style="color:black; background-color:antiquewhite" href="@Url.Content("~/Depositeds/Report/"+item.Id)" target="_blank">PDF</a> |
+        <a class="btn btn-info btn-sm" href="@Url.Content("~/Depositeds/Index/"+item.Id)">تفاصيل</a> |
+        @if (ViewBag.flag == 0)
+        {
+            @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-sm" }) <span>|</span>
+            @Html.ActionLink("حذف القداس", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+        }else
+        {
+            <button class="btn btn-danger btn-sm" disabled>لا يمكن حذف او تعديل تاريخ قديم</button>
+        }
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Login.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Church.churchName)
+    </td>
+    <td style="text-align:center">
+        @Html.DisplayFor(modelItem => item.PeopleDeposited)
+    </td>
+    <td style="text-align:center">
+        @Html.DisplayFor(modelItem => item.PeopleCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Time)
+    </td>
+    <td>
+        
+        @str
+    </td>
+</tr>
+}
+
+</table>

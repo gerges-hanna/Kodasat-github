@@ -1,0 +1,12 @@
+﻿@if (Session["id"] == null)
+{
+    <li>@Html.ActionLink("حجز قداس", "Create", "Depositeds")</li>
+    <li>@Html.ActionLink("قداساتى", "About", "Home")</li>
+    <li>@Html.ActionLink("تسجيل دخول كاهن", "signIn", "Logins")</li>
+}
+else
+{
+    <li>@Html.ActionLink("تسجيل قداس جديد", "Create", "Kodas")</li>
+    <li>@Html.ActionLink("قداساتى", "index", "Kodas")</li>
+    <li>@Html.ActionLink("تسجيل خروج", "signIn", "Logins")</li>
+}

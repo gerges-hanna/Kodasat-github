@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KodasatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Churches">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="churchName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deposited">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NationalID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="kodasID" Type="int" Nullable="false" />
+          <Property Name="AttendedOn" Type="date" Nullable="false" />
+          <Property Name="FatherID" Type="int" />
+          <Property Name="churchesID" Type="int" />
+          <Property Name="NumberFriends" Type="int" />
+        </EntityType>
+        <EntityType Name="Kodas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" />
+          <Property Name="PeopleCount" Type="int" Nullable="false" />
+          <Property Name="PeopleDeposited" Type="int" Nullable="false" />
+          <Property Name="ChurchesID" Type="int" Nullable="false" />
+          <Property Name="fatherID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChurchesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Churches__CityID__2B3F6F97">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Churches" Type="Self.Churches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Churches">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__churc__32E0915F">
+          <End Role="Churches" Type="Self.Churches" Multiplicity="0..1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="churchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__Fathe__31EC6D26">
+          <End Role="Login" Type="Self.Login" Multiplicity="0..1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="FatherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__kodas__30F848ED">
+          <End Role="Kodas" Type="Self.Kodas" Multiplicity="1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kodas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="kodasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kodas__ChurchesI__33D4B598">
+          <End Role="Churches" Type="Self.Churches" Multiplicity="1" />
+          <End Role="Kodas" Type="Self.Kodas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kodas">
+              <PropertyRef Name="ChurchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kodas__fatherID__34C8D9D1">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="Kodas" Type="Self.Kodas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kodas">
+              <PropertyRef Name="fatherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Login__ChurchesI__2E1BDC42">
+          <End Role="Churches" Type="Self.Churches" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="ChurchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KodasatDBModelStoreContainer">
+          <EntitySet Name="Churches" EntityType="Self.Churches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deposited" EntityType="Self.Deposited" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kodas" EntityType="Self.Kodas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Churches__CityID__2B3F6F97" Association="Self.FK__Churches__CityID__2B3F6F97">
+            <End Role="City" EntitySet="City" />
+            <End Role="Churches" EntitySet="Churches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__churc__32E0915F" Association="Self.FK__Deposited__churc__32E0915F">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Deposited" EntitySet="Deposited" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__Fathe__31EC6D26" Association="Self.FK__Deposited__Fathe__31EC6D26">
+            <End Role="Login" EntitySet="Login" />
+            <End Role="Deposited" EntitySet="Deposited" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__kodas__30F848ED" Association="Self.FK__Deposited__kodas__30F848ED">
+            <End Role="Kodas" EntitySet="Kodas" />
+            <End Role="Deposited" EntitySet="Deposited" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kodas__ChurchesI__33D4B598" Association="Self.FK__Kodas__ChurchesI__33D4B598">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Kodas" EntitySet="Kodas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kodas__fatherID__34C8D9D1" Association="Self.FK__Kodas__fatherID__34C8D9D1">
+            <End Role="Login" EntitySet="Login" />
+            <End Role="Kodas" EntitySet="Kodas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Login__ChurchesI__2E1BDC42" Association="Self.FK__Login__ChurchesI__2E1BDC42">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Login" EntitySet="Login" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KodasatDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Church">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="churchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="City" Relationship="Self.FK__Churches__CityID__2B3F6F97" FromRole="Churches" ToRole="City" />
+          <NavigationProperty Name="Depositeds" Relationship="Self.FK__Deposited__churc__32E0915F" FromRole="Churches" ToRole="Deposited" />
+          <NavigationProperty Name="Kodas" Relationship="Self.FK__Kodas__ChurchesI__33D4B598" FromRole="Churches" ToRole="Kodas" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK__Login__ChurchesI__2E1BDC42" FromRole="Churches" ToRole="Login" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Churches" Relationship="Self.FK__Churches__CityID__2B3F6F97" FromRole="City" ToRole="Churches" />
+        </EntityType>
+        <EntityType Name="Deposited">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NationalID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kodasID" Type="Int32" Nullable="false" />
+          <Property Name="AttendedOn" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FatherID" Type="Int32" />
+          <Property Name="churchesID" Type="Int32" />
+          <Property Name="NumberFriends" Type="Int32" />
+          <NavigationProperty Name="Church" Relationship="Self.FK__Deposited__churc__32E0915F" FromRole="Deposited" ToRole="Churches" />
+          <NavigationProperty Name="Login" Relationship="Self.FK__Deposited__Fathe__31EC6D26" FromRole="Deposited" ToRole="Login" />
+          <NavigationProperty Name="Koda" Relationship="Self.FK__Deposited__kodas__30F848ED" FromRole="Deposited" ToRole="Kodas" />
+        </EntityType>
+        <EntityType Name="Koda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Time" Type="Time" Precision="7" />
+          <Property Name="PeopleCount" Type="Int32" Nullable="false" />
+          <Property Name="PeopleDeposited" Type="Int32" Nullable="false" />
+          <Property Name="ChurchesID" Type="Int32" Nullable="false" />
+          <Property Name="fatherID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Church" Relationship="Self.FK__Kodas__ChurchesI__33D4B598" FromRole="Kodas" ToRole="Churches" />
+          <NavigationProperty Name="Depositeds" Relationship="Self.FK__Deposited__kodas__30F848ED" FromRole="Kodas" ToRole="Deposited" />
+          <NavigationProperty Name="Login" Relationship="Self.FK__Kodas__fatherID__34C8D9D1" FromRole="Kodas" ToRole="Login" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChurchesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Church" Relationship="Self.FK__Login__ChurchesI__2E1BDC42" FromRole="Login" ToRole="Churches" />
+          <NavigationProperty Name="Depositeds" Relationship="Self.FK__Deposited__Fathe__31EC6D26" FromRole="Login" ToRole="Deposited" />
+          <NavigationProperty Name="Kodas" Relationship="Self.FK__Kodas__fatherID__34C8D9D1" FromRole="Login" ToRole="Kodas" />
+        </EntityType>
+        <Association Name="FK__Churches__CityID__2B3F6F97">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Churches" Type="Self.Church" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Churches">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__churc__32E0915F">
+          <End Role="Churches" Type="Self.Church" Multiplicity="0..1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="churchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kodas__ChurchesI__33D4B598">
+          <End Role="Churches" Type="Self.Church" Multiplicity="1" />
+          <End Role="Kodas" Type="Self.Koda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kodas">
+              <PropertyRef Name="ChurchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Login__ChurchesI__2E1BDC42">
+          <End Role="Churches" Type="Self.Church" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Churches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="ChurchesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__Fathe__31EC6D26">
+          <End Role="Login" Type="Self.Login" Multiplicity="0..1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="FatherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deposited__kodas__30F848ED">
+          <End Role="Kodas" Type="Self.Koda" Multiplicity="1" />
+          <End Role="Deposited" Type="Self.Deposited" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kodas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deposited">
+              <PropertyRef Name="kodasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kodas__fatherID__34C8D9D1">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="Kodas" Type="Self.Koda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kodas">
+              <PropertyRef Name="fatherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KodasatDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Churches" EntityType="Self.Church" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Depositeds" EntityType="Self.Deposited" />
+          <EntitySet Name="Kodas" EntityType="Self.Koda" />
+          <EntitySet Name="Logins" EntityType="Self.Login" />
+          <AssociationSet Name="FK__Churches__CityID__2B3F6F97" Association="Self.FK__Churches__CityID__2B3F6F97">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Churches" EntitySet="Churches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__churc__32E0915F" Association="Self.FK__Deposited__churc__32E0915F">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Deposited" EntitySet="Depositeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kodas__ChurchesI__33D4B598" Association="Self.FK__Kodas__ChurchesI__33D4B598">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Kodas" EntitySet="Kodas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Login__ChurchesI__2E1BDC42" Association="Self.FK__Login__ChurchesI__2E1BDC42">
+            <End Role="Churches" EntitySet="Churches" />
+            <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__Fathe__31EC6D26" Association="Self.FK__Deposited__Fathe__31EC6D26">
+            <End Role="Login" EntitySet="Logins" />
+            <End Role="Deposited" EntitySet="Depositeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deposited__kodas__30F848ED" Association="Self.FK__Deposited__kodas__30F848ED">
+            <End Role="Kodas" EntitySet="Kodas" />
+            <End Role="Deposited" EntitySet="Depositeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kodas__fatherID__34C8D9D1" Association="Self.FK__Kodas__fatherID__34C8D9D1">
+            <End Role="Login" EntitySet="Logins" />
+            <End Role="Kodas" EntitySet="Kodas" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="KodasatDBModel.sysdiagram" />
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KodasatDBModelStoreContainer" CdmEntityContainer="KodasatDBEntities">
+          <EntitySetMapping Name="Churches">
+            <EntityTypeMapping TypeName="KodasatDBModel.Church">
+              <MappingFragment StoreEntitySet="Churches">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="churchName" ColumnName="churchName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="KodasatDBModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Depositeds">
+            <EntityTypeMapping TypeName="KodasatDBModel.Deposited">
+              <MappingFragment StoreEntitySet="Deposited">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NationalID" ColumnName="NationalID" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="kodasID" ColumnName="kodasID" />
+                <ScalarProperty Name="AttendedOn" ColumnName="AttendedOn" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="churchesID" ColumnName="churchesID" />
+                <ScalarProperty Name="NumberFriends" ColumnName="NumberFriends" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kodas">
+            <EntityTypeMapping TypeName="KodasatDBModel.Koda">
+              <MappingFragment StoreEntitySet="Kodas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="PeopleCount" ColumnName="PeopleCount" />
+                <ScalarProperty Name="PeopleDeposited" ColumnName="PeopleDeposited" />
+                <ScalarProperty Name="ChurchesID" ColumnName="ChurchesID" />
+                <ScalarProperty Name="fatherID" ColumnName="fatherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="KodasatDBModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ChurchesID" ColumnName="ChurchesID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KodasatDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

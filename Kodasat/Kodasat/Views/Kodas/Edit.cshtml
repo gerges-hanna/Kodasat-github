@@ -1,0 +1,70 @@
+﻿@model Kodasat.Models.Koda
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script>history.replaceState("", null, "EditeConfirm");</script>
+<link href="~/Style/StyleSheet1.css" rel="stylesheet" />
+<h2 class="ArabicSide">تعديل معاد القداس</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    
+    <hr style="clear:both" />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger ArabicSide" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control ArabicSide" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger ArabicSide" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control ArabicSide" } })
+            @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger ArabicSide" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeopleCount, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PeopleCount, new { htmlAttributes = new { @class = "form-control ArabicSide" } })
+            @Html.ValidationMessageFor(model => model.PeopleCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeopleDeposited, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PeopleDeposited, new { htmlAttributes = new { @class = "form-control ArabicSide" ,@readonly="true"} })
+            @Html.ValidationMessageFor(model => model.PeopleDeposited, "", new { @class = "text-danger ArabicSide" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="تعديل" class="btn btn-success ArabicSide" style="padding-left:52px;padding-right:52px" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 ">
+            @Html.ActionLink("الرجوع لجدول القداسات", "Index", null, new { @class = "btn btn-default  ArabicSide" })
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

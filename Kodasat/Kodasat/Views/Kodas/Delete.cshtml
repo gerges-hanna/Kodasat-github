@@ -1,0 +1,78 @@
+﻿@model Kodasat.Models.Koda
+
+@{
+    ViewBag.Title = "Delete";
+}
+    @*<script>history.replaceState("", null, "DeleteConfirm");</script>*@
+<link href="~/Style/StyleSheet1.css" rel="stylesheet" />
+<h2 class="ArabicSide">إضافه قداس جديد</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr style="clear:both" />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            <label class="ArabicSide">@Html.DisplayFor(model => model.Date)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            <label class="ArabicSide">@Html.DisplayFor(model => model.Time)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeopleCount, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            <label class="ArabicSide">@Html.DisplayFor(model => model.PeopleCount)</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.PeopleDeposited, htmlAttributes: new { @class = "control-label col-md-2 ArabicSide" })
+        <div class="col-md-10">
+            <label class="ArabicSide">@Html.DisplayFor(model => model.PeopleDeposited)</label>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-10 ">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Delete" class="btn btn-danger ArabicSide" /> 
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 ">
+            @Html.ActionLink("الرجوع لجدول القداسات", "Index", null, new { @class = "btn btn-default  ArabicSide" })
+        </div>
+    </div>
+
+</div>
+
+}
+
+
+
+
+<div style="clear:both"></div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
